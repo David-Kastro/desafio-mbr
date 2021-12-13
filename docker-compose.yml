@@ -1,0 +1,90 @@
+version: "3.2"
+services:
+  rabbitmqsrv:
+    image: rabbitmq:3-management-alpine
+    container_name: "rabbitmqsrv"
+    ports:
+      - 5672:5672
+      - 15672:15672
+    env_file:
+      - ./.env
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - main_net
+
+  mysqlsrv:
+    image: mysql
+    container_name: "mysqlsrv"
+    env_file:
+      - ./.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - ~/.docker-conf/mysql/data/:/var/lib/mysql
+    networks:
+      - main_net
+
+  api:
+    container_name: api_dev
+    image: nestjs-api-dev:1.0.0
+    build:
+      context: .
+      target: api
+      dockerfile: ./Dockerfile
+    command: npm run start:dev
+    ports:
+      - 3000:3000
+    networks:
+      - main_net
+    volumes:
+      - ./api:/usr/src/app
+      - /usr/src/app/node_modules
+
+  rabbitmq:
+    container_name: rabbitmq_dev
+    image: nestjs-api-dev:1.0.0
+    build:
+      context: .
+      target: rabbitmq
+      dockerfile: ./Dockerfile
+    command: npm run start:dev
+    ports:
+      - 9229:9229
+    networks:
+      - main_net
+    volumes:
+      - ./rabbitmq:/usr/src/app
+      - /usr/src/app/node_modules
+
+  adminer:
+    image: adminer
+    container_name: adminersrv
+    ports:
+      - 8080:8080
+    networks:
+      - main_net
+
+  app:
+    container_name: app_dev
+    build:
+      context: .
+      target: app
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./.env
+    links:
+      - api
+    command: npm run start
+    ports:
+      - 3001:3001
+    networks:
+      - main_net
+    volumes:
+      - ./app:/usr/src/app
+      - /usr/src/app/node_modules
+
+networks:
+  main_net:
+    driver: bridge

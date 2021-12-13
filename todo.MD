@@ -1,0 +1,7 @@
+- [x] create RabbitMQ and MySQL docker services
+- [x] create docker services to run `api` and `rabbitmq` in realtime
+- [x] create address api and address queue
+- [x] create react web app
+- [x] create docker service to run `web` in realtime
+- [ ] create form and list pages
+- [ ] deploy
