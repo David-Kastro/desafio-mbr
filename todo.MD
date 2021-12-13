@@ -3,5 +3,5 @@
 - [x] create address api and address queue
 - [x] create react web app
 - [x] create docker service to run `web` in realtime
-- [ ] create form and list pages
+- [x] create form and list pages
 - [ ] deploy
