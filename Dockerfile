@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY ./api/package*.json ./
 
-RUN npm install --only=development
+RUN npm install
 
 COPY ./api .
 
@@ -18,7 +18,7 @@ WORKDIR /usr/src/app
 
 COPY ./rabbitmq/package*.json ./
 
-RUN npm install --only=development
+RUN npm install
 
 COPY ./rabbitmq .
 
