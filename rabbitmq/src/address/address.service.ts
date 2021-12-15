@@ -33,6 +33,7 @@ export class AddressService {
 
       if (finded) {
         await this.addressRepository.update({ email: data.email }, address);
+        return true;
       }
 
       await this.addressRepository.save(address);

@@ -23,7 +23,5 @@ export class AddressController {
     if (created) {
       channel.ack(originalMsg);
     }
-
-    channel.nack(originalMsg);
   }
 }
